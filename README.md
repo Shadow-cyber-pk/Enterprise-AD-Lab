@@ -1,80 +1,43 @@
-# Enterprise AD Lab: Windows Server 2022 Core & pfSense Integration
-## Project Objective
-To design and deploy a secure, virtualized domain environment using Windows Server 2022 Core (Headless) and Windows 10 Pro, fully integrated behind a pfSense firewall. This project focuses on Infrastructure-as-Code principles using PowerShell for all configurations.
+# Active Directory Domain Services (ADDS) Lab with Group Policy Management
+
+## Overview
+Built a Windows Server 2022 Active Directory environment to simulate enterprise identity and access management, including user provisioning, group policies, and domain-joined clients.
+
+## Key Features
+- Domain Controller deployment (ADDS)
+- User and group management
+- Domain-joined Windows 10 client
+- DNS and authentication configuration
 
 ## Tech Stack
-**OS:** Windows Server 2022 Standard (Core), Windows 10 Pro
+- Windows Server 2022 (Core)
+- Active Directory
+- Windows 10
+- pfSense (Firewall & Gateway)
 
-**Security:** pfSense Firewall (Routing, DNS Resolver, Rules)
+## Architecture
+- Domain: mylab.local  
+- Subnet: 192.168.10.0/24  
+- Domain Controller: 192.168.10.10  
+- Client Machine: 192.168.10.20  
+- Gateway: 192.168.10.1 (pfSense)  
 
-**Hypervisor:** VMware Workstation
+## Key Achievements
+- Successfully deployed and configured ADDS using PowerShell (Server Core)  
+- Joined windows 10 client to domain and validated authentication workflows    
+- Configured DNS forwarding and internal name resolution  
 
-**Admin Tools:** PowerShell (CLI-only management)
+## Troubleshooting & Root Cause Analysis
+- Diagnosed domain join failure caused by incorrect subnet mask (/32 instead of /24)  
+- Resolved DNS rebind protection issue in pfSense affecting domain resolution  
+- Identified firewall profile misconfiguration blocking AD-related ports  
+- Used network isolation strategy to systematically identify root causes  
 
-## Architecture & Network Design
-**Domain:** mylab.local
+## Key Learnings
+- Active Directory relies heavily on DNS and proper subnet configuration  
+- Firewall rules must allow specific ports (Kerberos, LDAP, RPC)  
+- PowerShell is essential for managing headless server environments  
 
-**Network Segment:** 192.168.10.0/24
-
-**DC01 (Domain Controller):** 192.168.10.10
-
-**WIN10-01 (Workstation):** 192.168.10.20
-
-**Gateway:** 192.168.10.1 (pfSense)
-
-## Key Challenges & Troubleshooting (The "Real World" Work)
-### 1. The "Black Box" Network Effect
-**The Problem:** Initial domain-join attempts failed with Domain does not exist despite successful ICMP (Pings).
-
-**The Discovery:** Used a staged isolation strategy. By moving hosts to a pure VMware LAN Segment, I identified a rare Subnet Mask reset (/32) and pfSense DNS Rebind Protection as the dual root causes.
-**The Fix:** Corrected host subnetting to /24.
-
-Configured pfSense to Disable DNS Rebind Checks for internal domain resolution.
-
-### 2. Headless AD Promotion
-The Process: Since I used Server Core, I managed the entire AD DS promotion via PowerShell, including Forest creation and DNS forwarder configuration to 8.8.8.8.
-
-## Detailed Project Documentation
-## Phase 1: Deployment & Initial Hurdles
-**Incident:** Boot Loops & Administrator Lockout
-
-The initial deployment resulted in repeated boot prompts and password rejection.
-
-![image_alt](https://github.com/Shadow-cyber-pk/pfsense-Multi-subnet-Lab/blob/7e2d8e411282dcd140623646e8e818f4c18dc030/images/Screenshot%202026-03-10%20005913.png)
-
-**Troubleshooting:** Verified BIOS/UEFI settings and attempted accessibility bypass via utilman.exe.
-
-**Resolution:** Performed a clean rebuild with EFI Secure Boot enabled to ensure local SAM database integrity.
-
-## Phase 2: Active Directory Promotion & DNS Setup
-**PowerShell Implementation:**
-
-### PowerShell
-### Install AD DS Role
-Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
-
-### Promote to Domain Controller
-Install-ADDSForest -DomainName "mylab.local" -InstallDns:$true -Force:$true
-## Phase 3: Root Cause Identification (Isolation Strategy)
-When domain-join failed, I moved the VMs to a VMware LAN Segment to remove the firewall as a variable.
-
-**Discovery 1:** ipconfig revealed a /32 mask on the server, isolating the host.
-
-**Discovery 2:** The Windows Firewall was in "Public" profile, blocking necessary ports.
-
-## Phase 4: pfSense Re-Integration & Hardening
-Once joined, I moved the lab back behind pfSense and applied enterprise-level rules:
-
-**DNS:** Enabled Disable DNS Rebind Checks to allow internal resolution.
-![image_alt](https://github.com/Shadow-cyber-pk/pfsense-Multi-subnet-Lab/blob/ea66db5105e9870dc484dd38b3f69742cc7440e0/images/Screenshot%202026-03-16%20100852.png)
-
-**Firewall Rules:** Created an Alias Group and permitted traffic for Kerberos (88), LDAP (389), and RPC High Ports.
-![image_alt](https://github.com/Shadow-cyber-pk/pfsense-Multi-subnet-Lab/blob/ea66db5105e9870dc484dd38b3f69742cc7440e0/images/Screenshot%202026-03-16%20101011.png)
-
-## Lessons Learned
-Subnetting Is Foundational: A single /32 vs /24 error can fully isolate an enterprise host.
-
-**Firewalls Default to Deny:** AD requires more than just "Ping." You must understand port-level flows (DNS, Kerberos, RPC).
 
 **Headless Admin:** Operating exclusively via PowerShell is essential for modern data center management.
 
