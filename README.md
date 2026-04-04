@@ -1,4 +1,4 @@
-# Active Directory Domain Services (ADDS) Lab with Group Policy Management
+# Active Directory Domain Services (ADDS) Lab
 
 ## Overview
 Built a Windows Server 2022 Active Directory environment to simulate enterprise identity and access management, including user provisioning, group policies, and domain-joined clients.
