@@ -25,7 +25,23 @@ Built a Windows Server 2022 Active Directory environment to simulate enterprise 
 ## Key Achievements
 - Successfully deployed and configured ADDS using PowerShell (Server Core)  
 - Joined windows 10 client to domain and validated authentication workflows    
-- Configured DNS forwarding and internal name resolution  
+- Configured DNS forwarding and internal name resolution
+
+## Access Control & Policy Implementation
+
+* Created multiple domain users and organized them into security groups (HR, IT)
+* Configured SMB file shares and structured departmental folders
+* Implemented NTFS and share-level permissions to enforce role-based access control (RBAC)
+* Verified restricted access by testing with different user accounts
+* Created and applied Group Policy Object (GPO) to restrict Control Panel access for standard users
+* Used `gpupdate /force` to troubleshoot and validate policy application
+
+## Additional Troubleshooting
+
+* Identified inherited NTFS permissions allowing unintended access and corrected using `icacls`
+* Resolved credential caching issues affecting permission testing
+* Validated access behavior across different user roles (authorized vs unauthorized)
+
 
 ## Troubleshooting & Root Cause Analysis
 - Diagnosed domain join failure caused by incorrect subnet mask (/32 instead of /24)  
