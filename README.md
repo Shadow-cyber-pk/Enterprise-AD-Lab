@@ -47,7 +47,17 @@ Built a Windows Server 2022 Active Directory environment to simulate enterprise 
 - Diagnosed domain join failure caused by incorrect subnet mask (/32 instead of /24)  
 - Resolved DNS rebind protection issue in pfSense affecting domain resolution  
 - Identified firewall profile misconfiguration blocking AD-related ports  
-- Used network isolation strategy to systematically identify root causes  
+- Used network isolation strategy to systematically identify root causes
+
+## Advanced Troubleshooting & Hybrid Networking
+- Implemented secure connectivity between on-prem AD environment and Azure VM using Tailscale
+- Configured subnet routing to enable cross-network communication (192.168.10.0/24)
+- Diagnosed and resolved multi-homed Domain Controller DNS registration issues
+- Corrected duplicate A records causing AD domain discovery failures
+- Validated AD services across networks (LDAP, Kerberos, SMB, RPC) using PowerShell-based testing
+- Analyzed and documented limitations of Active Directory domain join over overlay VPN architectures (Tailscale)
+- Implemented RPC port range restriction to troubleshoot remote domain join issues
+- Performed end-to-end debugging using PowerShell, Test-NetConnection, and nltest
 
 ## Key Learnings
 - Active Directory relies heavily on DNS and proper subnet configuration  
@@ -63,3 +73,6 @@ Built a Windows Server 2022 Active Directory environment to simulate enterprise 
 **Internet Reachability:** Operational (via DNS Forwarding)
 
 **Security:** Hardened (Traffic filtered via pfSense)
+
+## Outcome
+Successfully built and validated an enterprise-style Active Directory environment with secure networking, access control, and real-world troubleshooting scenarios.
