@@ -59,6 +59,14 @@ Built a Windows Server 2022 Active Directory environment to simulate enterprise 
 - Implemented RPC port range restriction to troubleshoot remote domain join issues
 - Performed end-to-end debugging using PowerShell, Test-NetConnection, and nltest
 
+## Screenshots
+
+**Domain join error encountered during troubleshooting**
+![Domain join error](images/domain-join-error.png)
+
+**AD DS, DNS and ADWS services running (PowerShell)**
+![AD services running](images/ad-services-running.png)
+
 ## Key Learnings
 - Active Directory relies heavily on DNS and proper subnet configuration  
 - Firewall rules must allow specific ports (Kerberos, LDAP, RPC)  
